@@ -1,9 +1,9 @@
 import html from "html-literal";
 import dogWithFlower from "url:../assets/img/dog-with-flower.jpg";
 
-export default () => html`
+export default (state) => html`
 <section id="bio">
-    <h2>Vivamus ac justo eu nisi</h2>
+    <h2>Vivamus ac ${state.name} justo eu nisi</h2>
     <img src="${dogWithFlower}" alt="me">
     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam eu sagittis nulla. Etiam semper mauris a quam tempus, non feugiat massa posuere. Morbi vitae nisi aliquam, semper diam id, molestie leo. In hac habitasse platea dictumst. Nulla et enim vel elit dictum viverra. Nunc pharetra lacinia arcu sit amet dignissim. Pellentesque ut mi nulla.</p>
     <p>Quisque at hendrerit libero, eget interdum lectus. Etiam facilisis leo nulla, sit amet imperdiet nunc molestie vel. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Curabitur consectetur felis a purus volutpat, sed finibus magna iaculis. Pellentesque tristique tristique turpis nec vehicula. Maecenas varius quis tellus id mollis. Vivamus ut ultrices ligula.</p>
