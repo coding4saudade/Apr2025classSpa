@@ -18,7 +18,7 @@ function render(state = store.home) {
 router.on("/", () => render()).resolve();
 router.on({
   "/": () => render(),
-  // The :view slot will match any single URL segment that appears directly after the domain name and a slash
+  // The :view slot will match  any single URL segment that appears directly after the domain name and a slash
   '/:view': function(match) {
     // If URL is '/about-me':
     // match.data.view will be 'about-me'
