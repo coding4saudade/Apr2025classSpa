@@ -24,8 +24,9 @@ router.on({
     // match.data.view will be 'about-me'
     // Using Lodash's camelCase to convert kebab-case to camelCase:
     // 'about-me' becomes 'aboutMe'
-    const view = match?.data?.view ? camelCase(match.data.view) : "home";
 
+    const view = match?.data?.view ? camelCase(match.data.view) : "home";
+//if view is in data
     // If the store import/object has a key named after the view
     if (view in store) {
       // Then the invoke the render function using the view state, using the view name
