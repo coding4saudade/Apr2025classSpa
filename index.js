@@ -94,15 +94,16 @@ router.hooks({
 
 router.on({
   "/": () => render(),
-  // The :view slot will match any single URL segment that appears directly after the domain name and a slash
+  // The :view slot will match  any single URL segment that appears directly after the domain name and a slash
   '/:view': function(match) {
     console.info("Route Handler Executing");
     // If URL is '/about-me':
     // match.data.view will be 'about-me'
     // Using Lodash's camelCase to convert kebab-case to camelCase:
     // 'about-me' becomes 'aboutMe'
-    const view = match?.data?.view ? camelCase(match.data.view) : "home";
 
+    const view = match?.data?.view ? camelCase(match.data.view) : "home";
+//if view is in data
     // If the store import/object has a key named after the view
     if (view in store) {
       // Then the invoke the render function using the view state, using the view name
