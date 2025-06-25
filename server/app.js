@@ -37,7 +37,7 @@ app.use(logging);
 
 // Handle the request with HTTP GET method from http://localhost:3000/
 app.get("/", (request, response) => {
-   response.sent("Welcome to the Class SPA REST API");
+   response.send("Welcome to the Class SPA REST API");
 });
 
 // Handle the request with HTTP GET method from http://localhost:3000/status
