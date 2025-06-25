@@ -56,7 +56,7 @@ router.hooks({
       case "pizza":
         // New Axios get request utilizing already made environment variable
         axios
-          .get(`https://sc-pizza-api.onrender.com/pizzas`)
+          .get(`${process.env.PIZZA_PLACE_API_URL}/pizzas`)
           .then(response => {
             // We need to store the response to the state, in the next step but in the meantime let's see what it looks like so that we know what to store from the response.
             console.log("response", response);
@@ -81,6 +81,56 @@ router.hooks({
   },
   after: (match) => {
     console.info("After hook executing")
+        const view = match?.data?.view ? camelCase(match.data.view) : "home";
+  //each view with a form will have an if statement like this
+  //if there are multiple forms on one page, give it an id to seperate them      
+    if (view === "order") {
+  // Add an event handler for the submit button on the form
+  document.querySelector("form").addEventListener("submit", event => {
+    //look up this code for more context of why we need event.preventDefault()
+    event.preventDefault();
+
+    // Get the form element
+    const inputList = event.target.elements;
+    console.log("Input Element List", inputList);
+
+    // Create an empty array to hold the toppings
+    const toppings = [];
+
+    // Iterate over the toppings array
+
+    for (let checkboxInput of inputList.toppings) {
+      // If the value of the checked attribute is true then add the value to the toppings array
+      if (checkboxInput.checked) {
+        toppings.push(checkboxInput.value);
+      }
+    }
+
+    // Create a request body object to send to the API
+    const requestData = {
+      customer: inputList.customer.value,
+      crust: inputList.crust.value,
+      cheese: inputList.cheese.value,
+      sauce: inputList.sauce.value,
+      toppings: toppings
+    };
+    // Log the request body to the console
+    console.log("request Body", requestData);
+
+    axios
+      // Make a POST request to the API to create a new pizza
+      .post(`${process.env.PIZZA_PLACE_API_URL}/pizzas`, requestData)
+      .then(response => {
+      //  Then push the new pizza onto the Pizza state pizzas attribute, so it can be displayed in the pizza list
+        store.pizza.pizzas.push(response.data);
+        router.navigate("/pizza");
+      })
+      // If there is an error log it to the console
+      .catch(error => {
+        console.log("It puked", error);
+      });
+  });
+}
     router.updatePageLinks();
 
     // add menu toggle to bars icon in nav bar
@@ -94,15 +144,16 @@ router.hooks({
 
 router.on({
   "/": () => render(),
-  // The :view slot will match any single URL segment that appears directly after the domain name and a slash
+  // The :view slot will match  any single URL segment that appears directly after the domain name and a slash
   '/:view': function(match) {
     console.info("Route Handler Executing");
     // If URL is '/about-me':
     // match.data.view will be 'about-me'
     // Using Lodash's camelCase to convert kebab-case to camelCase:
     // 'about-me' becomes 'aboutMe'
-    const view = match?.data?.view ? camelCase(match.data.view) : "home";
 
+    const view = match?.data?.view ? camelCase(match.data.view) : "home";
+//if view is in data
     // If the store import/object has a key named after the view
     if (view in store) {
       // Then the invoke the render function using the view state, using the view name
